@@ -25,11 +25,11 @@ class UserHandler {
   async getUserByIdHandler(request) {
     this._validator.validateUserParam(request.params);
     const { id } = request.params;
-    const song = await this._service.getUserById(id);
+    const user = await this._service.getUserById(id);
 
     return {
       status: 'success',
-      data: { song },
+      data: { user },
     };
   }
 }

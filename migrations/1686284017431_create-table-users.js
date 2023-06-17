@@ -2,7 +2,7 @@
 exports.up = (pgm) => {
   pgm.createTable('users', {
     id: {
-      type: 'VARCHAR(20)',
+      type: 'VARCHAR(21)',
       primaryKey: true,
     },
     username: {
