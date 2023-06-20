@@ -8,7 +8,7 @@ const UserPayloadSchema = Joi.object({
 });
 
 const UserParamSchema = Joi.object({
-  id: Joi.string().min(20).required(),
+  id: Joi.string().min(21).required(),
 });
 
 module.exports = { UserPayloadSchema, UserParamSchema };
