@@ -6,12 +6,12 @@ const routes = (handler) => [
   },
   {
     method: 'PUT',
-    path: '/authentications/{id}',
+    path: '/authentications',
     handler: handler.putAuthenticationByIdHandler,
   },
   {
     method: 'DELETE',
-    path: '/authentications/{id}',
+    path: '/authentications',
     handler: handler.deleteAuthenticationByIdHandler,
   },
 ];

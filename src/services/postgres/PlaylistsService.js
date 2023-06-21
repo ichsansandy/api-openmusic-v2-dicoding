@@ -21,7 +21,7 @@ class PlaylistsService {
     const result = await this._pool.query(query);
 
     if (!result.rows[0].id) {
-      throw new InvariantError('Song failed to be created');
+      throw new InvariantError('Playlist failed to be created');
     }
 
     return result.rows[0].id;
@@ -132,13 +132,13 @@ class PlaylistsService {
     await this._collaborationService.verifyCollaborator(playlistId, userId);
   }
 
-  async getUsersByUsername(username) {
+  async getUsernameById(userId) {
     const query = {
-      text: 'SELECT id, username, fullname FROM users WHERE username LIKE $1',
-      values: [`%${username}%`],
+      text: 'SELECT username FROM users WHERE id = $1',
+      values: [userId],
     };
     const result = await this._pool.query(query);
-    return result.rows;
+    return result.rows[0];
   }
 }
 

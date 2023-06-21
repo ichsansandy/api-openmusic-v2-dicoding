@@ -3,7 +3,7 @@
 exports.up = (pgm) => {
   pgm.createTable('playlists', {
     id: {
-      type: 'VARCHAR(24)',
+      type: 'VARCHAR(25)',
       primaryKey: true,
     },
     name: {
