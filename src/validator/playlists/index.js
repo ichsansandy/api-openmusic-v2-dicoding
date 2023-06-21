@@ -1,4 +1,4 @@
-const { PlaylistPayloadSchema, PlaylistParamSchema } = require('./playlistSchema');
+const { PlaylistPayloadSchema, PlaylistParamSchema, PlaylistSongPayloadSchema } = require('./playlistSchema');
 const ClientError = require('../../exceptions/ClientError');
 const NotFoundError = require('../../exceptions/NotFoundError');
 
@@ -7,6 +7,12 @@ const PlaylistValidator = {
     const validationResult = PlaylistPayloadSchema.validate(payload);
     if (validationResult.error) {
       throw new ClientError(validationResult.error.message);
+    }
+  },
+  validatePlaylistSongPayload: (payload) => {
+    const validaionResult = PlaylistSongPayloadSchema.validate(payload);
+    if (validaionResult.error) {
+      throw new ClientError(validaionResult.error.message);
     }
   },
   validatePlaylistParam: (param) => {

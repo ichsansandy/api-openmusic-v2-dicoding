@@ -25,10 +25,10 @@ class CollaborationService {
     return result.rows[0].id;
   }
 
-  async deleteCollaboration(id) {
+  async deleteCollaboration(id, userId) {
     const query = {
-      text: 'DELETE FROM collaborations WHERE id = $1 RETURNING id',
-      values: [id],
+      text: 'DELETE FROM collaborations WHERE playlist_id = $1 AND user_id = $2 RETURNING id',
+      values: [id, userId],
     };
 
     const result = await this._pool.query(query);
@@ -48,6 +48,19 @@ class CollaborationService {
 
     if (!result.rows.length) {
       throw new InvariantError('Kolaborasi gagal diverifikasi');
+    }
+  }
+
+  async verifyUser(userId) {
+    const query = {
+      text: 'SELECT * FROM users WHERE id = $1',
+      values: [userId],
+    };
+
+    const result = await this._pool.query(query);
+
+    if (!result.rows.length) {
+      throw new NotFoundError('User not found');
     }
   }
 }

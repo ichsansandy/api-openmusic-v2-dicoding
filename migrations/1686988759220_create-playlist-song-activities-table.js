@@ -8,12 +8,12 @@ exports.up = (pgm) => {
       type: 'VARCHAR(25)',
       notNull: true,
     },
-    song_id: {
-      type: 'VARCHAR(21)',
+    username: {
+      type: 'TEXT',
       notNull: true,
     },
-    user_id: {
-      type: 'VARCHAR(21)',
+    title: {
+      type: 'TEXT',
       notNull: true,
     },
     action: {
@@ -30,5 +30,8 @@ exports.up = (pgm) => {
 };
 
 exports.down = (pgm) => {
-  pgm.dropTable('playlists');
+  pgm.dropConstraint('playlist_song_activities', 'fk_playlist_song_activities.playlist_id_playlists.id');
+
+
+  pgm.dropTable('playlist_song_activities');
 };
