@@ -64,6 +64,22 @@ class SongsService {
     return result.rows;
   }
 
+  async getAllSongWithParams(title, performer) {
+    let songs;
+
+    if (title && !performer) {
+      songs = await this.getSongByTitle(title);
+    } else if (!title && performer) {
+      songs = await this.getSongByPerformer(performer);
+    } else if (title && performer) {
+      songs = await this.getSongByTitleAndPerformer(title, performer);
+    } else {
+      songs = await this.getAllSong();
+    }
+
+    return songs;
+  }
+
   async getSongById(id) {
     const query = {
       text: 'SELECT * FROM songs WHERE id = $1',

@@ -24,17 +24,8 @@ class SongHandler {
 
   async getAllSongHandler(request) {
     const { title, performer } = request.query;
-    let songs;
 
-    if (title && !performer) {
-      songs = await this._service.getSongByTitle(title);
-    } else if (!title && performer) {
-      songs = await this._service.getSongByPerformer(performer);
-    } else if (title && performer) {
-      songs = await this._service.getSongByTitleAndPerformer(title, performer);
-    } else {
-      songs = await this._service.getAllSong(title, performer);
-    }
+    const songs = await this._service.getAllSongWithParams(title, performer);
 
     return {
       status: 'success',
