@@ -9,6 +9,7 @@ const UsersService = require('./services/postgres/UsersService');
 const AuthenticationsService = require('./services/postgres/AuthenticationService');
 const PlaylistsService = require('./services/postgres/PlaylistsService');
 const CollaborationsService = require('./services/postgres/CollaborationService');
+const StorageService = require('./services/storage/StorageService');
 const ProducerService = require('./services/rabbitmq/ProducerService');
 
 const TokenManager = require('./tokenize/TokenManager');
@@ -38,6 +39,7 @@ const init = async () => {
   const authenticationsService = new AuthenticationsService();
   const collaborationsService = new CollaborationsService();
   const playlistsService = new PlaylistsService(collaborationsService);
+  const storageService = new StorageService();
 
   const server = Hapi.server({
     port: process.env.PORT,
@@ -77,6 +79,7 @@ const init = async () => {
       plugin: albums,
       options: {
         service: albumsService,
+        storageService,
         validator: AlbumsValidator,
       },
     },

@@ -1,8 +1,9 @@
 const autoBind = require('auto-bind');
 
 class AlbumHandler {
-  constructor(service, validator) {
+  constructor(service, storageService, validator) {
     this._service = service;
+    this._storageService = storageService;
     this._validator = validator;
 
     autoBind(this);
