@@ -1,23 +1,28 @@
+const autoBind = require('auto-bind');
+
 class ExportsHandler {
-  constructor(playlistsService, exportsService, validator) {
+  constructor(playlistsService, ProducerService, validator) {
     this._playlistsService = playlistsService;
-    this._exportsService = exportsService;
+    this._producerService = ProducerService;
     this._validator = validator;
+    autoBind(this);
   }
 
   async postExportPlaylistsHandler(request, h) {
     this._validator.validateExportPlaylistsPayload(request.payload);
     this._validator.validateExportParam(request.params);
+
     const { id: credentialId } = request.auth.credentials;
     const { id } = request.params;
-    this._playlistsService.verifyPlaylistOwner(id, credentialId);
+
+    await this._playlistsService.verifyPlaylistOwner(id, credentialId);
 
     const message = {
-      userId: credentialId,
+      targetPlaylist: id,
       targetEmail: request.payload.targetEmail,
     };
 
-    await this._service.sendMessage('export:playlists', JSON.stringify(message));
+    await this._producerService.sendMessage('export:playlists', JSON.stringify(message));
 
     const response = h.response({
       status: 'success',

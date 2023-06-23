@@ -27,7 +27,7 @@ const users = require('./api/users/index');
 const authentications = require('./api/authentication/index');
 const playlists = require('./api/playlists/index');
 const collaborations = require('./api/collaborations/index');
-const _exports = require('./api/exports');
+const _exports = require('./api/exports/index');
 
 const ClientError = require('./exceptions/ClientError');
 
