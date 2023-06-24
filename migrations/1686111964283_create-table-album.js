@@ -13,7 +13,7 @@ exports.up = (pgm) => {
       type: 'NUMERIC',
       notNull: true,
     },
-    coverURL: {
+    coverUrl: {
       type: 'TEXT',
       notNull: false,
     },

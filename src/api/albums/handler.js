@@ -71,8 +71,68 @@ class AlbumHandler {
   }
 
   async postUploadAlbumCoverHandler(request, h) {
-    const { data } = request.payload;
-    this._validator.validateAlbumCoverImage(data.hapi.headers);
+    const { cover } = request.payload;
+    const { id } = request.params;
+    console.log(cover);
+    this._validator.validateAlbumCoverImage(cover.hapi.headers);
+
+    const filename = await this._storageService.writeFile(cover, cover.hapi);
+
+    const coverUrl = `http://${process.env.HOST}:${process.env.PORT}/albums/albums-cover/${filename}`;
+
+    await this._service.editCoverAlbum(coverUrl, id);
+
+    const response = h.response({
+      status: 'success',
+      message: 'Sampul berhasil diunggah',
+    });
+    response.code(201);
+    return response;
+  }
+
+  async postAlbumLikesHandler(request, h) {
+    this._validator.validateAlbumParam(request.params);
+
+    const { id } = request.params;
+    const { id: credentialId } = request.auth.credentials;
+
+    await this._service.addLikeToAlbum(id, credentialId);
+
+    const response = h.response({
+      status: 'success',
+      message: 'Sampul berhasil diunggah',
+    });
+    response.code(201);
+    return response;
+  }
+
+  async deleteAlbumLikesHandler(request) {
+    this._validator.validateAlbumParam(request.params);
+
+    const { id } = request.params;
+    const { id: credentialId } = request.auth.credentials;
+
+    await this._service.unLikeAlbum(id, credentialId);
+
+    return {
+      status: 'success',
+      message: 'Delete Album Success',
+    };
+  }
+
+  async getAlbumLikesHandler(request) {
+    this._validator.validateAlbumParam(request.params);
+
+    const { id } = request.params;
+
+    const number = await this._service.getAlbumLike(id);
+
+    return {
+      status: 'success',
+      data: {
+        likes: Number(number.count),
+      },
+    };
   }
 }
 
