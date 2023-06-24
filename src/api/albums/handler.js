@@ -69,6 +69,11 @@ class AlbumHandler {
       message: 'Delete Album Success',
     };
   }
+
+  async postUploadAlbumCoverHandler(request, h) {
+    const { data } = request.payload;
+    this._validator.validateAlbumCoverImage(data.hapi.headers);
+  }
 }
 
 module.exports = AlbumHandler;
