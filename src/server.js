@@ -12,6 +12,7 @@ const PlaylistsService = require('./services/postgres/PlaylistsService');
 const CollaborationsService = require('./services/postgres/CollaborationService');
 const StorageService = require('./services/storage/StorageService');
 const ProducerService = require('./services/rabbitmq/ProducerService');
+const CacheService = require('./services/redis/CacheService');
 
 const TokenManager = require('./tokenize/TokenManager');
 
@@ -34,7 +35,8 @@ const _exports = require('./api/exports/index');
 const ClientError = require('./exceptions/ClientError');
 
 const init = async () => {
-  const albumsService = new AlbumsService();
+  const cacheService = new CacheService();
+  const albumsService = new AlbumsService(cacheService);
   const songService = new SongsService();
   const userService = new UsersService();
   const authenticationsService = new AuthenticationsService();
